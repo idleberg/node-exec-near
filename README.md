@@ -1,4 +1,4 @@
-# node-package-template
+# exec-near
 
 > Just my personal package template.
 

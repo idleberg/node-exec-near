@@ -1,8 +1,8 @@
 {
-	"name": "node-package-template",
+	"name": "exec-near",
 	"version": "0.0.0",
 	"private": true,
-	"description": "Just my personal package template",
+	"description": "Execute a program in near a search result",
 	"license": "MIT",
 	"author": "Jan T. Sott",
 	"repository": {
@@ -37,7 +37,13 @@
 		"publish:npm": "np --any-branch",
 		"test": "vitest run"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"commander": "^14.0.2",
+		"find-git-root": "^1.0.4",
+		"find-up-simple": "^1.0.1",
+		"install": "^0.13.0",
+		"kleur": "^4.1.5"
+	},
 	"devDependencies": {
 		"@commitlint/cli": "^20.1.0",
 		"@commitlint/config-conventional": "^20.0.0",
@@ -50,6 +56,5 @@
 		"tsdown": "^0.16.1",
 		"vitest": "^4.0.8"
 	},
-	"peerDependencies": {},
 	"packageManager": "pnpm@10.21.0+sha512.da3337267e400fdd3d479a6c68079ac6db01d8ca4f67572083e722775a796788a7a9956613749e000fac20d424b594f7a791a5f4e2e13581c5ef947f26968a40"
 }

@@ -2,3 +2,9 @@
 git_url = "https://github.com/idleberg/configs"
 ref = "main"
 configs = ["lefthook/biome.toml", "lefthook/commitlint.toml"]
+
+[pre-commit.commands.echo]
+run = """
+# node --eval "`{staged_files}`.split(' ').forEach(console.log)"
+node src/index.ts --find=LICENSE --with {staged_files} -- biome check
+"""
