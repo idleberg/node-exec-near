@@ -16,29 +16,61 @@ if (options.debug) {
 	});
 }
 
-// TODO
-// - does options.find exist
-// - do options.with files exist (ignore missing files, error if none exist)
-// - run command in cwd=options.with
+// Validate that at least one file from options.with exists
+const existingWithFiles = [];
 
-const absoluteFind = resolve(options.find);
+for (const file of options.with) {
+	if (await fileExists(file)) {
+		existingWithFiles.push(file);
+	}
+}
 
-if ((await fileExists(absoluteFind)) === false) {
-	logger.error(`File "${options.find}" not found`);
+// console.log({ before: options.with, existingWithFiles });
+
+if (existingWithFiles.length === 0) {
+	logger.error('None of the files provided by --with do exist');
 	process.exit(1);
 }
 
-const result = await findUp(options.find, {
-	stopAt: options.boundary,
-});
+// Group files by their nearest config file
+const fileGroups: Record<string, string[]> = {};
 
-if (!result) {
-	logger.error(`Could not find "${options.find}" within boundary.`);
-	process.exit(1);
+for (const file of existingWithFiles) {
+	// Try each candidate file sequentially until one is found
+	const result = await (async () => {
+		for (const candidateFile of options.find) {
+			const found = await findUp(candidateFile, {
+				cwd: dirname(file),
+				stopAt: options.boundary,
+			});
+
+			if (found) {
+				return found;
+			}
+		}
+		return undefined;
+	})();
+
+	if (!result) {
+		logger.error(`Could not find any of "${options.find.join('", "')}" for "${file}" within boundary.`);
+		process.exit(1);
+	}
+
+	if (!fileGroups[result]) {
+		fileGroups[result] = [];
+	}
+
+	fileGroups[result].push(file);
 }
 
-const cwd = dirname(result);
-const existingFiles = options.with.filter(fileExists).map((file: string) => relative(cwd, file));
-const combinedArgs = [...commandArgs, ...existingFiles];
+for (const [configPath, files] of Object.entries(fileGroups)) {
+	const cwd = dirname(configPath);
+	const relativeFiles = files.map((file: string) => relative(cwd, file));
+	const combinedArgs = [...commandArgs, ...relativeFiles];
 
-spawnProcess(cwd, command as string, combinedArgs, options);
+	try {
+		await spawnProcess(cwd, command as string, combinedArgs, options);
+	} catch (error) {
+		logger.error((error as Error).message);
+	}
+}

@@ -123,6 +123,13 @@ describe('spawnProcess', () => {
 	const mockChild = {
 		on: vi.fn(),
 		kill: vi.fn(),
+		pid: 12345,
+		stdout: {
+			on: vi.fn(),
+		},
+		stderr: {
+			on: vi.fn(),
+		},
 	};
 
 	beforeEach(() => {
@@ -145,7 +152,8 @@ describe('spawnProcess', () => {
 			['hello'],
 			expect.objectContaining({
 				cwd: '/test/dir',
-				stdio: 'inherit',
+				stdio: ['inherit', 'pipe', 'pipe'],
+				env: expect.objectContaining({ FORCE_COLOR: '1' }),
 			}),
 		);
 	});
@@ -189,8 +197,8 @@ describe('spawnProcess', () => {
 		}
 	});
 
-	it('should handle child process exit with code', () => {
-		spawnProcess('/test/dir', 'echo', []);
+	it('should handle child process exit with code', async () => {
+		const promise = spawnProcess('/test/dir', 'echo', []);
 
 		const exitHandler = mockChild.on.mock.calls.find((call) => call[0] === 'exit')?.[1];
 
@@ -198,30 +206,33 @@ describe('spawnProcess', () => {
 
 		if (exitHandler) {
 			exitHandler(0, null);
-			expect(process.exit).toHaveBeenCalledWith(0);
+			const exitCode = await promise;
+			expect(exitCode).toBe(0);
 		}
 	});
 
-	it('should handle child process exit with signal', () => {
-		spawnProcess('/test/dir', 'echo', []);
+	it('should handle child process exit with signal', async () => {
+		const promise = spawnProcess('/test/dir', 'echo', []);
 
 		const exitHandler = mockChild.on.mock.calls.find((call) => call[0] === 'exit')?.[1];
 
 		if (exitHandler) {
 			exitHandler(null, 'SIGTERM');
-			expect(logger.info).toHaveBeenCalledWith(expect.stringContaining('SIGTERM'));
-			expect(process.kill).toHaveBeenCalledWith(process.pid, 'SIGTERM');
+
+			await expect(promise).rejects.toThrow('Process 12345 terminated with SIGTERM');
 		}
 	});
 
-	it('should handle child process error', () => {
-		spawnProcess('/test/dir', 'echo', []);
+	it('should handle child process error', async () => {
+		const promise = spawnProcess('/test/dir', 'echo', []);
 
 		const errorHandler = mockChild.on.mock.calls.find((call) => call[0] === 'error')?.[1];
 
 		if (errorHandler) {
 			errorHandler(new Error('Test error'));
 			expect(logger.error).toHaveBeenCalledWith('Test error');
+
+			await expect(promise).rejects.toThrow('Test error');
 		}
 	});
 
@@ -250,7 +261,8 @@ describe('spawnProcess', () => {
 			['install'],
 			expect.objectContaining({
 				cwd: '/custom/working/dir',
-				stdio: 'inherit',
+				stdio: ['inherit', 'pipe', 'pipe'],
+				env: expect.objectContaining({ FORCE_COLOR: '1' }),
 			}),
 		);
 	});
@@ -288,14 +300,15 @@ describe('spawnProcess', () => {
 		}
 	});
 
-	it('should handle non-zero exit codes', () => {
-		spawnProcess('/test/dir', 'failing-command', []);
+	it('should handle non-zero exit codes', async () => {
+		const promise = spawnProcess('/test/dir', 'failing-command', []);
 
 		const exitHandler = mockChild.on.mock.calls.find((call) => call[0] === 'exit')?.[1];
 
 		if (exitHandler) {
 			exitHandler(1, null);
-			expect(process.exit).toHaveBeenCalledWith(1);
+			const exitCode = await promise;
+			expect(exitCode).toBe(1);
 		}
 	});
 

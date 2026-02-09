@@ -3,7 +3,7 @@ import { logger } from './log.ts';
 import { getGitRoot, getVersion } from './utils.ts';
 
 export async function handleCli() {
-	const program = new Command('loadenv');
+	const program = new Command('exec-near');
 	const gitRoot = await getGitRoot();
 
 	program
@@ -18,7 +18,9 @@ export async function handleCli() {
 
 		.optionsGroup('Execution Options')
 		.requiredOption('-w, --with <file...>', 'entrypoint from where to traverse up')
-		.requiredOption('-f, --find <file>', 'file to base the CWD on')
+		.requiredOption('-f, --find <file>', 'file(s) to base the CWD on, first match wins', (value, previous: string[]) => {
+			return previous ? [...previous, value] : [value];
+		}, [])
 		.option('-b, --boundary <directory>', 'define a boundary where to stop searching', gitRoot)
 
 		// This is required to pass on unknown options to the spawned process.

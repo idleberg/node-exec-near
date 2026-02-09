@@ -104,7 +104,27 @@ describe('handleCli', () => {
 
 		const result = await handleCli();
 
-		expect(result.options.find).toBe('package.json');
+		expect(result.options.find).toEqual(['package.json']);
+	});
+
+	it('should handle multiple --find files', async () => {
+		process.argv = [
+			'node',
+			'cli.js',
+			'-w',
+			'file.env',
+			'-f',
+			'package.json',
+			'-f',
+			'deno.json',
+			'-f',
+			'Cargo.toml',
+			'echo',
+		];
+
+		const result = await handleCli();
+
+		expect(result.options.find).toEqual(['package.json', 'deno.json', 'Cargo.toml']);
 	});
 
 	it('should use git root as default boundary', async () => {
@@ -167,7 +187,7 @@ describe('handleCli', () => {
 		expect(result.options.debug).toBe(true);
 		expect(result.options.dryRun).toBe(true);
 		expect(result.options.with).toEqual(['file.env']);
-		expect(result.options.find).toBe('package.json');
+		expect(result.options.find).toEqual(['package.json']);
 		expect(result.options.boundary).toBe('/test');
 	});
 
@@ -193,7 +213,7 @@ describe('handleCli', () => {
 			debug: true,
 			dryRun: true,
 			with: ['file.env'],
-			find: 'package.json',
+			find: ['package.json'],
 			boundary: '/boundary',
 		});
 	});
@@ -302,7 +322,7 @@ describe('handleCli', () => {
 		expect(result.command).toBe('ls');
 		expect(result.commandArgs).toEqual([]);
 		expect(result.options.with).toEqual(['file.env']);
-		expect(result.options.find).toBe('package.json');
+		expect(result.options.find).toEqual(['package.json']);
 	});
 
 	it('should use logger.log for writeOut callback', async () => {
