@@ -1,21 +1,17 @@
 {
 	"name": "exec-near",
 	"version": "0.0.0",
-	"private": true,
-	"description": "Execute a program in near a search result",
+	"description": "Execute a program near a search result",
 	"license": "MIT",
 	"author": "Jan T. Sott",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/idleberg/node-package-template.git"
+		"url": "git+https://github.com/idleberg/node-exec-near.git"
 	},
 	"keywords": [],
 	"type": "module",
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js"
-		}
+	"bin": {
+		"exec-near": "./bin/index.mjs"
 	},
 	"engines": {
 		"node": ">=20"
