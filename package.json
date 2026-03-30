@@ -33,23 +33,23 @@
 		"test": "vitest run"
 	},
 	"dependencies": {
-		"commander": "^14.0.2",
-		"find-git-root": "^1.0.4",
+		"commander": "^14.0.3",
+		"find-git-root": "^1.1.0",
 		"find-up-simple": "^1.0.1",
 		"install": "^0.13.0",
 		"kleur": "^4.1.5"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^20.1.0",
-		"@commitlint/config-conventional": "^20.0.0",
+		"@commitlint/cli": "^20.5.0",
+		"@commitlint/config-conventional": "^20.5.0",
 		"@e18e/cli": "^0.3.1",
 		"@idleberg/configs": "^0.3.3",
-		"@types/node": "^24.10.0",
-		"@vitest/coverage-v8": "^4.0.8",
+		"@types/node": "^24.12.0",
+		"@vitest/coverage-v8": "^4.1.2",
 		"concurrently": "^9.2.1",
-		"np": "^10.2.0",
-		"tsdown": "^0.16.1",
-		"vitest": "^4.0.8"
+		"np": "^10.3.0",
+		"tsdown": "^0.16.8",
+		"vitest": "^4.1.2"
 	},
 	"pnpm": {
 		"onlyBuiltDependencies": [
