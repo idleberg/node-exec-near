@@ -14,8 +14,6 @@ npm install exec-near
 
 ## Usage 🚀
 
-Consider a monorepo with mixed tooling:
-
 ```shell
 # Run Prettier in package folders with prettier.config.js
 npx exec-near --with packages/**/*.ts --find prettier.config.js -- prettier --check --write
