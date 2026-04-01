@@ -52,8 +52,10 @@ for (const file of existingWithFiles) {
 	})();
 
 	if (!result) {
-		logger.error(`Could not find any of "${options.find.join('", "')}" for "${file}" within boundary.`);
-		process.exit(1);
+		// logger.error(`Could not find any of "${options.find.join('", "')}" for "${file}" within boundary.`);
+		// process.exit(1);
+		logger.debug(`No match found for "${file}"`);
+		continue;
 	}
 
 	if (!fileGroups[result]) {
