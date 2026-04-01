@@ -6,10 +6,6 @@
 [![Version: npm](https://img.shields.io/npm/v/exec-near?style=for-the-badge)](https://www.npmjs.org/package/exec-near)
 ![GitHub branch check runs](https://img.shields.io/github/check-runs/idleberg/node-exec-near/main?style=for-the-badge)
 
-## Description
-
-A template with highly opinionated configuration. Works for me, maybe not for you!
-
 ## Installation 💿
 
 ```shell
