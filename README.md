@@ -1,6 +1,6 @@
 # exec-near
 
-> Just my personal package template.
+> Run commands in the directory of the nearest matching file.
 
 [![License](https://img.shields.io/github/license/idleberg/node-package-template?color=blue&style=for-the-badge)](https://github.com/idleberg/node-package-template/blob/main/LICENSE)
 [![Version: npm](https://img.shields.io/npm/v/node-package-template?style=for-the-badge)](https://www.npmjs.org/package/node-package-template)
@@ -10,17 +10,25 @@
 
 A template with highly opinionated configuration. Works for me, maybe not for you!
 
-## Installation
-
-In GitHub, click on *"Use this template"* to create a new repo from this template. Alternatively, you can use degit.
+## Installation 💿
 
 ```shell
-npx degit github:idleberg/node-package-template
+npm install exec-near
 ```
 
-## Usage
+## Usage 🚀
 
-That's the one thing you have to figure out!
+Consider a monorepo with mixed tooling:
+
+```shell
+# Run Prettier in package folders with prettier.config.js
+npx exec-near --with packages/**/*.ts --find prettier.config.js -- prettier --check --write
+
+# Run Biome in package folders with biome.json
+npx exec-near --with packages/**/*.ts --find biome.json -- biome check --write
+```
+
+See `npx exec-near --help` for all available options.
 
 ## License
 
