@@ -2,9 +2,9 @@
 
 > Run commands in the directory of the nearest matching file.
 
-[![License](https://img.shields.io/github/license/idleberg/node-package-template?color=blue&style=for-the-badge)](https://github.com/idleberg/node-package-template/blob/main/LICENSE)
-[![Version: npm](https://img.shields.io/npm/v/node-package-template?style=for-the-badge)](https://www.npmjs.org/package/node-package-template)
-![GitHub branch check runs](https://img.shields.io/github/check-runs/idleberg/node-package-template/main?style=for-the-badge)
+[![License](https://img.shields.io/github/license/idleberg/node-exec-near?color=blue&style=for-the-badge)](https://github.com/idleberg/node-exec-near/blob/main/LICENSE)
+[![Version: npm](https://img.shields.io/npm/v/exec-near?style=for-the-badge)](https://www.npmjs.org/package/exec-near)
+![GitHub branch check runs](https://img.shields.io/github/check-runs/idleberg/node-exec-near/main?style=for-the-badge)
 
 ## Description
 
