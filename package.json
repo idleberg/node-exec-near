@@ -1,6 +1,6 @@
 {
 	"name": "exec-near",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "Execute a program near a search result",
 	"license": "MIT",
 	"author": "Jan T. Sott",
