@@ -308,6 +308,30 @@ describe('handleCli', () => {
 		expect(result.commandArgs).toEqual(['run', '--rm', '-v', '/data:/data', 'image:latest']);
 	});
 
+	it('should default pass option to true', async () => {
+		process.argv = ['node', 'cli.js', '-w', 'file.env', '-f', 'package.json', 'echo'];
+
+		const result = await handleCli();
+
+		expect(result.options.pass).toBe(true);
+	});
+
+	it('should set pass to false when --no-pass is provided', async () => {
+		process.argv = ['node', 'cli.js', '-w', 'file.env', '-f', 'package.json', '--no-pass', 'echo'];
+
+		const result = await handleCli();
+
+		expect(result.options.pass).toBe(false);
+	});
+
+	it('should set pass to false when -n is provided', async () => {
+		process.argv = ['node', 'cli.js', '-w', 'file.env', '-f', 'package.json', '-n', 'echo'];
+
+		const result = await handleCli();
+
+		expect(result.options.pass).toBe(false);
+	});
+
 	it('should not throw when both debug and dry-run are enabled', async () => {
 		process.argv = ['node', 'cli.js', '-w', 'file.env', '-f', 'package.json', '-D', '-R', 'echo', 'test'];
 
