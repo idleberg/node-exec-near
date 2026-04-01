@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { dirname, relative, resolve } from 'node:path';
+import { dirname, relative } from 'node:path';
 import { findUp } from 'find-up-simple';
 import { handleCli } from './cli.ts';
 import { logger } from './log.ts';
@@ -52,8 +52,6 @@ for (const file of existingWithFiles) {
 	})();
 
 	if (!result) {
-		// logger.error(`Could not find any of "${options.find.join('", "')}" for "${file}" within boundary.`);
-		// process.exit(1);
 		logger.debug(`No match found for "${file}"`);
 		continue;
 	}
@@ -67,7 +65,8 @@ for (const file of existingWithFiles) {
 
 for (const [configPath, files] of Object.entries(fileGroups)) {
 	const cwd = dirname(configPath);
-	const relativeFiles = files.map((file: string) => relative(cwd, file));
+	const relativeFiles = options.pass ? files.map((file: string) => relative(cwd, file)) : [];
+	console.log({ commandArgs, relativeFiles });
 	const combinedArgs = [...commandArgs, ...relativeFiles];
 
 	try {

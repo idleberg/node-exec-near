@@ -18,10 +18,16 @@ export async function handleCli() {
 
 		.optionsGroup('Execution Options')
 		.requiredOption('-w, --with <file...>', 'entrypoint from where to traverse up')
-		.requiredOption('-f, --find <file>', 'file(s) to base the CWD on, first match wins', (value, previous: string[]) => {
-			return previous ? [...previous, value] : [value];
-		}, [])
+		.requiredOption(
+			'-f, --find <file>',
+			'file(s) to base the CWD on, first match wins',
+			(value, previous: string[]) => {
+				return previous ? [...previous, value] : [value];
+			},
+			[],
+		)
 		.option('-b, --boundary <directory>', 'define a boundary where to stop searching', gitRoot)
+		.option('-n, --no-pass', 'skips passing results to the spawned process', true)
 
 		// This is required to pass on unknown options to the spawned process.
 		.allowUnknownOption(true);
