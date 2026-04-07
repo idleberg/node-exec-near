@@ -16,10 +16,10 @@ npm install exec-near
 
 ```shell
 # Run Prettier in package folders with prettier.config.js
-npx exec-near --with packages/**/*.ts --find prettier.config.js -- prettier --check --write
+npx exec-near --with packages/**/*.ts --find prettier.config.js -- npx prettier --check --write
 
 # Run Biome in package folders with biome.json
-npx exec-near --with packages/**/*.ts --find biome.json -- biome check --write
+npx exec-near --with packages/**/*.ts --find biome.json -- npx biome check --write
 ```
 
 See `npx exec-near --help` for all available options.
