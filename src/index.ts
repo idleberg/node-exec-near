@@ -69,6 +69,10 @@ for (const [configPath, files] of Object.entries(fileGroups)) {
 	const relativeFiles = options.pass ? files.map((file: string) => relative(cwd, file)) : [];
 	const combinedArgs = [...commandArgs, ...relativeFiles];
 
+	logger.debug('Executing command with config', {
+		relativeFiles,
+	});
+
 	try {
 		await spawnProcess(cwd, command as string, combinedArgs, options);
 	} catch (error) {
