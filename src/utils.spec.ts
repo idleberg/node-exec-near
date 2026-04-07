@@ -2,7 +2,7 @@ import { spawn } from 'node:child_process';
 import { access, readFile } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import process from 'node:process';
-import { findUp } from 'find-up-simple';
+import { dir as findDir } from 'empathic/find';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { logger } from './log.ts';
 import { fileExists, getGitRoot, getVersion, spawnProcess } from './utils.ts';
@@ -10,7 +10,7 @@ import { fileExists, getGitRoot, getVersion, spawnProcess } from './utils.ts';
 vi.mock('node:fs/promises');
 vi.mock('node:child_process');
 vi.mock('node:os');
-vi.mock('find-up-simple');
+vi.mock('empathic/find');
 vi.mock('./log.ts', () => ({
 	logger: {
 		log: vi.fn(),
@@ -25,29 +25,29 @@ describe('getGitRoot', () => {
 		vi.clearAllMocks();
 	});
 
-	it('should return git root directory when .git folder is found', async () => {
-		vi.mocked(findUp).mockResolvedValue('/home/user/project/.git');
+	it('should return git root directory when .git folder is found', () => {
+		vi.mocked(findDir).mockReturnValue('/home/user/project/.git');
 
-		const result = await getGitRoot();
+		const result = getGitRoot();
 
 		expect(result).toBe('/home/user/project');
-		expect(findUp).toHaveBeenCalledWith('.git', { type: 'directory' });
+		expect(findDir).toHaveBeenCalledWith('.git');
 	});
 
-	it('should return home directory when .git folder is not found', async () => {
-		vi.mocked(findUp).mockResolvedValue(undefined);
+	it('should return home directory when .git folder is not found', () => {
+		vi.mocked(findDir).mockReturnValue(undefined);
 		vi.mocked(homedir).mockReturnValue('/home/user');
 
-		const result = await getGitRoot();
+		const result = getGitRoot();
 
 		expect(result).toBe('/home/user');
 		expect(homedir).toHaveBeenCalled();
 	});
 
-	it('should handle nested git repositories', async () => {
-		vi.mocked(findUp).mockResolvedValue('/home/user/projects/deep/nested/.git');
+	it('should handle nested git repositories', () => {
+		vi.mocked(findDir).mockReturnValue('/home/user/projects/deep/nested/.git');
 
-		const result = await getGitRoot();
+		const result = getGitRoot();
 
 		expect(result).toBe('/home/user/projects/deep/nested');
 	});

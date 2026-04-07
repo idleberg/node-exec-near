@@ -21,7 +21,7 @@ describe('handleCli', () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
 		vi.mocked(getVersion).mockResolvedValue('1.0.0');
-		vi.mocked(getGitRoot).mockResolvedValue('/home/user/project');
+		vi.mocked(getGitRoot).mockReturnValue('/home/user/project');
 		// Reset process.argv to a clean state
 		process.argv = ['node', 'cli.js'];
 	});
@@ -128,7 +128,7 @@ describe('handleCli', () => {
 	});
 
 	it('should use git root as default boundary', async () => {
-		vi.mocked(getGitRoot).mockResolvedValue('/home/user/myproject');
+		vi.mocked(getGitRoot).mockReturnValue('/home/user/myproject');
 		process.argv = ['node', 'cli.js', '-w', 'file.env', '-f', 'package.json', 'echo'];
 
 		const result = await handleCli();
@@ -268,7 +268,7 @@ describe('handleCli', () => {
 	});
 
 	it('should await getGitRoot before using it as boundary default', async () => {
-		vi.mocked(getGitRoot).mockResolvedValue('/custom/git/root');
+		vi.mocked(getGitRoot).mockReturnValue('/custom/git/root');
 		process.argv = ['node', 'cli.js', '-w', 'file.env', '-f', 'package.json', 'echo'];
 
 		const result = await handleCli();

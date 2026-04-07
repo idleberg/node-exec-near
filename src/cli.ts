@@ -4,7 +4,7 @@ import { getGitRoot, getVersion } from './utils.ts';
 
 export async function handleCli() {
 	const program = new Command('exec-near');
-	const gitRoot = await getGitRoot();
+	const gitRoot = getGitRoot();
 
 	program
 		.version(await getVersion())

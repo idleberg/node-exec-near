@@ -1,11 +1,12 @@
 import { spawn } from 'node:child_process';
-import { constants } from 'node:fs';
+import { constants, readdirSync } from 'node:fs';
 import { access, readFile } from 'node:fs/promises';
 import { homedir } from 'node:os';
-import { dirname, relative, resolve } from 'node:path';
+import { dirname, join, relative, resolve } from 'node:path';
 import process from 'node:process';
 import type { OptionValues } from 'commander';
-import { findUp } from 'find-up-simple';
+import { dir as findDir, file as findFile } from 'empathic/find';
+import { up as walkUp } from 'empathic/walk';
 import { bgMagenta } from 'kleur/colors';
 import { logger } from './log.ts';
 
@@ -13,10 +14,8 @@ import { logger } from './log.ts';
  * Find the closest git root relative to CWD, falls back to $HOME.
  * @internal
  */
-export async function getGitRoot() {
-	const gitFolder = await findUp('.git', {
-		type: 'directory',
-	});
+export function getGitRoot() {
+	const gitFolder = findDir('.git');
 
 	return gitFolder ? dirname(gitFolder) : homedir();
 }
@@ -31,6 +30,45 @@ export async function getVersion(): Promise<string> {
 	const { version } = JSON.parse(fileContents);
 
 	return version ?? 'development';
+}
+
+/**
+ * Converts a simple glob pattern (supporting * and ?) to a RegExp.
+ */
+function globToRegex(pattern: string): RegExp {
+	const escaped = pattern.replace(/[.+^${}()|[\]\\]/g, '\\$&');
+	const regexStr = escaped.replace(/\*/g, '[^/]*').replace(/\?/g, '[^/]');
+
+	return new RegExp(`^${regexStr}$`);
+}
+
+/**
+ * Find the nearest file matching a pattern (supports * and ? globs) by walking up
+ * parent directories, stopping at the given boundary.
+ * @internal
+ */
+export function findUpGlob(pattern: string, { cwd, last }: { cwd: string; last: string }): string | undefined {
+	const isGlob = /[*?]/.test(pattern);
+
+	if (!isGlob) {
+		return findFile(pattern, { cwd, last });
+	}
+
+	const regex = globToRegex(pattern);
+
+	for (const dir of walkUp(cwd, { last })) {
+		try {
+			const match = readdirSync(dir).find((file) => regex.test(file));
+
+			if (match) {
+				return join(dir, match);
+			}
+		} catch {
+			// ignore unreadable directories
+		}
+	}
+
+	return undefined;
 }
 
 /**
