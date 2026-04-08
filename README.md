@@ -24,6 +24,6 @@ npx exec-near --with packages/**/*.ts --find biome.json -- npx biome check --wri
 
 See `npx exec-near --help` for all available options.
 
-## License
+## License ©️
 
 This work is licensed under [The MIT License](LICENSE).
