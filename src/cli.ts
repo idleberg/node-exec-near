@@ -27,7 +27,8 @@ export async function handleCli() {
 			[],
 		)
 		.option('-b, --boundary <directory>', 'define a boundary where to stop searching', gitRoot)
-		.option('-n, --no-pass', 'skips passing results to the spawned process', true)
+		.option('-n, --no-pass', 'skip passing results to the spawned process', true)
+		.option('-l, --no-prefer-local', 'control whether to prefer local npm binaries', true)
 
 		// This is required to pass on unknown options to the spawned process.
 		.allowUnknownOption(true);

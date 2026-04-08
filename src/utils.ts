@@ -103,7 +103,12 @@ export function spawnProcess(
 		const child = spawn(command, args, {
 			cwd,
 			stdio: ['inherit', 'pipe', 'pipe'],
-			env: { ...npmRunPathEnv(), FORCE_COLOR: '1' },
+			env: {
+				...npmRunPathEnv({
+					preferLocal: options.preferLocal !== false,
+				}),
+				FORCE_COLOR: '1',
+			},
 		});
 
 		const prefix = bgMagenta(` pid:${child.pid} `);
