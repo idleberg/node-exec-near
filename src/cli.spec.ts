@@ -332,6 +332,30 @@ describe('handleCli', () => {
 		expect(result.options.pass).toBe(false);
 	});
 
+	it('should default preferLocal option to true', async () => {
+		process.argv = ['node', 'cli.js', '-w', 'file.env', '-f', 'package.json', 'echo'];
+
+		const result = await handleCli();
+
+		expect(result.options.preferLocal).toBe(true);
+	});
+
+	it('should set preferLocal to false when --no-prefer-local is provided', async () => {
+		process.argv = ['node', 'cli.js', '-w', 'file.env', '-f', 'package.json', '--no-prefer-local', 'echo'];
+
+		const result = await handleCli();
+
+		expect(result.options.preferLocal).toBe(false);
+	});
+
+	it('should set preferLocal to false when -l is provided', async () => {
+		process.argv = ['node', 'cli.js', '-w', 'file.env', '-f', 'package.json', '-l', 'echo'];
+
+		const result = await handleCli();
+
+		expect(result.options.preferLocal).toBe(false);
+	});
+
 	it('should not throw when both debug and dry-run are enabled', async () => {
 		process.argv = ['node', 'cli.js', '-w', 'file.env', '-f', 'package.json', '-D', '-R', 'echo', 'test'];
 
