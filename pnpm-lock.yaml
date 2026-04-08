@@ -14,15 +14,12 @@ importers:
       empathic:
         specifier: ^2.0.0
         version: 2.0.0
-      find-git-root:
-        specifier: ^1.1.0
-        version: 1.1.0
-      install:
-        specifier: ^0.13.0
-        version: 0.13.0
       kleur:
         specifier: ^4.1.5
         version: 4.1.5
+      npm-run-path:
+        specifier: ^6.0.0
+        version: 6.0.0
     devDependencies:
       '@commitlint/cli':
         specifier: ^20.5.0
@@ -1793,9 +1790,6 @@ packages:
     resolution: {integrity: sha512-Tq6PixE0w/VMFfCgbONnkiQIVol/JJL7nRMi20fqzA4NRs9AfeqMGeRdPi3wIhYkxjeBaWh2rxwapn5Tu3IqOQ==}
     engines: {node: '>=6'}
 
-  find-git-root@1.1.0:
-    resolution: {integrity: sha512-FkB2PInh9Is4LJXab4OYYKrNqb7/lBxb+eFc4zCE9Nexcdr+/UwhHZ2M9Bi5+OJ3LVayDNeMKkRc3kaiV4GEdA==}
-
   find-up-simple@1.0.1:
     resolution: {integrity: sha512-afd4O7zpqHeRyg4PfDQsXmlDe2PfdHtJt6Akt8jOWaApLOZk5JXs6VMR29lz03pRe9mpykrRCYIYxaJYcfpncQ==}
     engines: {node: '>=18'}
@@ -1992,10 +1986,6 @@ packages:
   inquirer@7.3.3:
     resolution: {integrity: sha512-JG3eIAj5V9CwcGvuOmoo6LB9kbAYT8HXffUl6memuszlwDC/qvFAJw49XJ5NROSFNPxp3iQg1GqkFhaY/CR0IA==}
     engines: {node: '>=8.0.0'}
-
-  install@0.13.0:
-    resolution: {integrity: sha512-zDml/jzr2PKU9I8J/xyZBQn8rPCAY//UOYNmR01XwNwyfhEWObo2SWfSl1+0tm1u6PhxLwDnfsT/6jB7OUxqFA==}
-    engines: {node: '>= 0.10'}
 
   is-arrayish@0.2.1:
     resolution: {integrity: sha512-zz06S8t0ozoDXMG+ube26zeCTNXcKIPJZJi8hBrF4idCLms4CG9QtK7qBl1boi5ODzFpjswb5JPmHCbMpjaYzg==}
@@ -4863,8 +4853,6 @@ snapshots:
       make-dir: 2.1.0
       pkg-dir: 3.0.0
 
-  find-git-root@1.1.0: {}
-
   find-up-simple@1.0.1: {}
 
   find-up@3.0.0:
@@ -5062,8 +5050,6 @@ snapshots:
       string-width: 4.2.3
       strip-ansi: 6.0.1
       through: 2.3.8
-
-  install@0.13.0: {}
 
   is-arrayish@0.2.1: {}
 
