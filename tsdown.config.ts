@@ -6,6 +6,9 @@ export default defineConfig((options) => {
 	return {
 		clean: isProduction,
 		dts: isProduction,
+		deps: {
+			onlyBundle: ['npm-run-path'],
+		},
 		entry: 'src/index.ts',
 		format: 'esm',
 		minify: isProduction,
