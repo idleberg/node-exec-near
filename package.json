@@ -1,6 +1,6 @@
 {
 	"name": "exec-near",
-	"version": "0.1.1",
+	"version": "0.2.0",
 	"description": "Run commands in the directory of the nearest matching file",
 	"license": "MIT",
 	"author": "Jan T. Sott",
