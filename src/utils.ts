@@ -8,6 +8,7 @@ import type { OptionValues } from 'commander';
 import { dir as findDir, file as findFile } from 'empathic/find';
 import { up as walkUp } from 'empathic/walk';
 import { bgMagenta } from 'kleur/colors';
+import { npmRunPathEnv } from 'npm-run-path';
 import { logger } from './log.ts';
 
 /**
@@ -102,7 +103,7 @@ export function spawnProcess(
 		const child = spawn(command, args, {
 			cwd,
 			stdio: ['inherit', 'pipe', 'pipe'],
-			env: { ...process.env, FORCE_COLOR: '1' },
+			env: { ...npmRunPathEnv(), FORCE_COLOR: '1' },
 		});
 
 		const prefix = bgMagenta(` pid:${child.pid} `);
