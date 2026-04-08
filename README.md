@@ -24,7 +24,7 @@ npx exec-near --with packages/**/*.ts --find biome.json -- biome check --write
 
 > [!NOTE]
 >
-> You can pass npm binaries directly to `exec-near`, so no need to use `npx` or the likes.
+> You can pass npm binaries directly to `exec-near`, there is no need to use `npx` or the likes.
 
 See `npx exec-near --help` for all available options.
 
